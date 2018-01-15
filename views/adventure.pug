@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  svg(class='graphContainer full_width full_height')
+
+block footer
+
+  script(src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.12.2/d3.min.js")
+  script(src="/javascripts/Enums.js")
+  script(src="/javascripts/Logger.js")
+  script(src="/javascripts/GraphUpdater.js")
+  script(src="/javascripts/GraphManager.js")
+  script(src="/javascripts/UUIDGenerator-devUseOnly.js")
+

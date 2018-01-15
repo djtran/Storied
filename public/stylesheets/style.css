@@ -1,0 +1,50 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.full_height {
+    margin: 0px;
+    height: 100%;
+    min-height: 100%;
+}
+
+.full_width {
+    margin: 0px;
+    min-width: 100%;
+    width: 100%;
+}
+
+.content {
+    position: relative;
+    z-index: 100;
+}
+
+.graphContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: #d3d3d3;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+/*D3 force graph!*/
+.links line {
+    stroke: #999;
+    stroke-opacity: 0.6;
+}
+
+.nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
