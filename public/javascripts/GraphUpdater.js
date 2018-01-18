@@ -1,4 +1,5 @@
-//= GraphManager
+//////////////////////////////////////////
+//  Time-based updates
 
 /*
 Called whenever a change to the graph has been made (New node/link, etc). Updates the groups currently drawn, attaching
@@ -62,6 +63,57 @@ function update() {
 }
 
 /*
+Update each group of objects in the D3 force simulation.
+ */
+function ticked() {
+  svg.selectAll("circle")
+    .attr("r", nodeRadius)
+    .style("fill", function(d) {return color(d.group)})
+    .style("stroke", "#424242")
+    .style("stroke-width", borderWidth)
+    .attr("cx", function (d) { return d.x; })
+    .attr("cy", function(d) { return d.y; });
+  svg.selectAll("line")
+    .style("stroke", "#aaa")
+    .style("fill", "#aaa")
+    .style("stroke-width", borderWidth)
+    .attr("x1", function(d) { return d.source.x; })
+    .attr("y1", function(d) { return d.source.y; })
+    .attr("x2", function(d) { return d.target.x; })
+    .attr("y2", function(d) { return d.target.y; });
+  svg.selectAll("text")
+    .attr("x", function(d) { return d.x; })
+    .attr("y", function (d) { return d.y - 1.2*nodeRadius; })
+    .style("font-family", "Lato")
+    .style("font-size", "12px")
+    .style("fill", "#333");
+}
+
+/*
+Drag methods to adjust the position of the node we are dragging, and also to update the state machine in case any other
+controls are activated while we do this.
+ */
+function dragstarted(d) {
+  setState(STATE.DRAGNODE);
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart()
+  d.fx = d.x;
+  d.fy = d.y;
+}
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
+}
+function dragended(d) {
+  setState(STATE.HOVERNODE);
+  d.fx = null;
+  d.fy = null;
+  if (!d3.event.active) simulation.alphaTarget(0);
+}
+
+//////////////////////////////////////////
+//  State based updates
+
+/*
 When hovering over a node, change state. This way we can specify different control behaviors, such as click to select
 versus click to create.
  */
@@ -99,7 +151,7 @@ function bOverrideMouseOver() {
 When the cursor leaves the node, it should be hovering over empty space or a link. Due to the charge force between
 nodes, there should never be any overlapping nodes so this should be a safe operation.
 
-TODO: Fix this for fucking links, we enter HOVERLINK but never return ugh
+TODO: Fix this for fucking links, we enter HOVERLINK but never return from it ugh
  */
 function nodeMouseOut(){
     if(bOverrideMouseOver()) {
@@ -108,6 +160,9 @@ function nodeMouseOut(){
     setState(STATE.HOVEREMPTY);
     setSelection({}, TYPE.EMPTY);
 }
+
+//////////////////////////////////////////
+//  Miscellaneous updates
 
 /*
 Zoom functions
