@@ -24,10 +24,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Capture requests
 app.use('/', index);
 app.use('/users', users);
 app.use('/adventure', adventure);
-
 app.use('/api', api);
 
 // catch 404 and forward to error handler
